@@ -9,7 +9,10 @@ RUN apk --update add --no-cache py-pygments bash tar dumb-init
 ENV HUGO_VERSION 0.30.2
 ENV HUGO_BINARY hugo_${HUGO_VERSION}_Linux-ARM
 
-RUN mkdir /usr/local/hugo
+RUN \
+  adduser -h /site -s /sbin/nologin -u 1000 -D hugo && \
+  apk add --no-cache \
+    dumb-init
 ADD https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${HUGO_BINARY}.tar.gz /usr/bin/
 USER    hugo
 WORKDIR /site
